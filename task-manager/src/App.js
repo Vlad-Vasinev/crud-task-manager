@@ -1,6 +1,6 @@
 
 import './App.css';
-import Tasks from './components/tasks/task';
+import Tasks from './components/tasks/task/task';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
           A simple Task Manager web app that lets a user create, view,
           edit, and delete tasks
         </p>
-        <h2>CRUD Operation</h2>
+        <h2>CRUD Operation and Task Manager</h2>
         <Tasks></Tasks>
       </header>
     </div>
