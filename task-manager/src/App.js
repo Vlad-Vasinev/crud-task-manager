@@ -10,7 +10,7 @@ function App() {
           A simple Task Manager web app that lets a user create, view,
           edit, and delete tasks
         </p>
-        <h2>CRUD Operation and Task Manager</h2>
+        <h2>CRUD Operation and Task Manager (made by Vlad Vasinev)</h2>
         <Tasks></Tasks>
       </header>
     </div>

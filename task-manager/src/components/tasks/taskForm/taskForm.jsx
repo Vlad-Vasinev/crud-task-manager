@@ -1,28 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Select, Radio, DatePicker, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { addCustomData } from '../../../store/taskReducer';
+import dayjs from 'dayjs';
+import { addCustomData, editTask } from '../../../store/taskReducer';
 
 import classes from './taskForm.module.css';
 const { TextArea } = Input;
 
-const TaskForm = () => {
+const TaskForm = ({ editingTask, onCancelEdit }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    dispatch(addCustomData({
-      id: uuidv4(),
+   useEffect(() => {
+    if (editingTask) {
+      form.setFieldsValue({
+        title: editingTask.title,
+        description: editingTask.description,
+        status: editingTask.status,
+        priority: editingTask.priority,
+        dueDate: editingTask.dueDate ? dayjs(editingTask.dueDate) : null,
+      });
+    } else {
+      form.resetFields();
+    }
+  }, [editingTask, form]);
+
+   const onFinish = (values) => {
+    const payload = {
       title: values.title,
       description: values.description || '',
       status: values.status,
       priority: values.priority,
       dueDate: values.dueDate ? values.dueDate.format('YYYY-MM-DD') : '',
-    }));
+    };
+
+    if (editingTask) {
+      dispatch(editTask({ id: editingTask.id, ...payload }));
+      onCancelEdit();
+    } else {
+      dispatch(addCustomData({ id: uuidv4(), ...payload }));
+    }
+
     form.resetFields();
   };
-
   return (
     <Form
       className={classes.form}
